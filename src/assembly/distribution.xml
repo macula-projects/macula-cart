@@ -14,12 +14,10 @@
 	<fileSets>
 		<fileSet>
 			<!-- adds readme and other textfiles to the root of the distribution archive -->
-			<directory>src/main/resources</directory>
+			<directory>/</directory>
 			<includes>
-				<include>readme.txt</include>
-				<include>license.txt</include>
-				<include>changelog.txt</include>
-				<include>notice.txt</include>
+				<include>README.md</include>
+				<include>LICENSE</include>
 			</includes>
 			<outputDirectory/>
 			<lineEnding>dos</lineEnding>
