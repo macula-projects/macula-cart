@@ -16,3 +16,6 @@ hs_err_pid*
 .project
 .settings/
 target/
+
+#Mac OSX
+.DS_Store
