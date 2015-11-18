@@ -14,7 +14,7 @@
 	<fileSets>
 		<fileSet>
 			<!-- adds readme and other textfiles to the root of the distribution archive -->
-			<directory>/</directory>
+			<directory/>
 			<includes>
 				<include>README.md</include>
 				<include>LICENSE</include>
