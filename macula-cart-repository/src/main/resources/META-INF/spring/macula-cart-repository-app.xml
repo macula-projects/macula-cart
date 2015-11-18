@@ -10,6 +10,6 @@
 			http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<jpa:repositories base-package="org.macula.cart.repository" entity-manager-factory-ref="entityManagerFactory_macula-cart"
-		transaction-manager-ref="#{T(org.macula.Configuration).getTransactionManagerName()}" factory-class="org.macula.core.repository.MaculaJpaRepositoryFactoryBean" />
+		transaction-manager-ref="transactionManager_macula-cart" factory-class="org.macula.core.repository.MaculaJpaRepositoryFactoryBean" />
 
 </beans> 
