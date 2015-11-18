@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2010-2012 the original author or authors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<property name="varchar2.type" value="VARCHAR2" dbms="oracle" />
+	<property name="varchar2.type" value="VARCHAR" dbms="mysql" />
+
+	<property name="number.type" value="NUMBER" dbms="oracle" />
+	<property name="number.type" value="NUMERIC" dbms="mysql" />
+
+	<property name="clob.type" value="CLOB" dbms="oracle" />
+	<property name="clob.type" value="LONGTEXT" dbms="mysql" />
+
+	<property name="timestamp.type" value="TIMESTAMP(6)" dbms="oracle" />
+	<property name="timestamp.type" value="DATETIME" dbms="mysql" />
+
+	<property name="key.type" value="NUMBER(19,0)" dbms="oracle" />
+	<property name="key.type" value="BIGINT" dbms="mysql" />
+
+	<property name="dbms" value="oracle" dbms="oracle" />
+	<property name="dbms" value="mysql" dbms="mysql" />
+	
+	<include file="classpath:db/macula-cart/changelog-1.0.0.xml"/>
+	
+	<!-- 下面是演示的表结构 -->
+	<changeSet author="RainWang" id="DEMO_APP_INSTANCE_V_1_0_0">
+		<preConditions onFail="MARK_RAN" onError="MARK_RAN">
+			<not>
+				<tableExists tableName="DEMO_APP_INSTANCE" />
+			</not>
+		</preConditions>
+		<createTable tableName="DEMO_APP_INSTANCE">
+			<column name="ID" remarks="顺序号" type="${key.type}"
+				autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="PK_DEMO_APP_INSTANCE" />
+			</column>
+			<column name="APP_ID" remarks="应用的ID" type="${varchar2.type}(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CODE" remarks="实例代码" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="NAME" remarks="实例名称" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="HOME_PAGE" remarks="实例入口地址" type="${varchar2.type}(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CREATED_BY" remarks="创建人" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CREATED_TIME" remarks="创建时间" type="${timestamp.type}">
+				<constraints nullable="false" />
+			</column>
+			<column name="LAST_UPDATED_BY" remarks="最后更新人" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="LAST_UPDATED_TIME" remarks="最后更新时间" type="${timestamp.type}">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint columnNames="APP_ID, CODE"
+			constraintName="IDX_DEMO_APP_INSTANCE_U1" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="DEMO_APP_INSTANCE" />
+	</changeSet>
+	<changeSet author="RainWang" id="DEMO_APPLICATION_V_1_0_0">
+		<preConditions onFail="MARK_RAN" onError="MARK_RAN">
+			<not>
+				<tableExists tableName="DEMO_APPLICATION" />
+			</not>
+		</preConditions>
+		<createTable tableName="DEMO_APPLICATION">
+			<column name="ID" remarks="顺序号" type="${key.type}"
+				autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="PK_DEMO_APPLICATION" />
+			</column>
+			<column name="APP_ID" remarks="应用的ID" type="${varchar2.type}(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="APP_NAME" remarks="应用名称" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="APP_GROUP" remarks="应用分组" type="${varchar2.type}(20)" />
+			<column name="THEME" remarks="界面风格" type="${varchar2.type}(20)" />
+			<column name="HOME_PAGE" remarks="应用入口地址" type="${varchar2.type}(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="SECURE_KEY" remarks="应用公钥" type="${varchar2.type}(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="PRIVATE_KEY" remarks="应用私钥" type="${varchar2.type}(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CONTACT" remarks="联系方式" type="${varchar2.type}(255)" />
+			<column name="SUPERVISOR" remarks="应用负责人" type="${varchar2.type}(255)" />
+			<column defaultValueNumeric="1" name="IS_SSIN" remarks="是否支持单点登录"
+				type="${number.type}(1,0)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueNumeric="1" name="IS_SSOUT" remarks="是否支持单点登出"
+				type="${number.type}(1,0)">
+				<constraints nullable="false" />
+			</column>
+			<column name="COMMENTS" remarks="应用备注" type="${varchar2.type}(255)" />
+			<column name="CREATED_BY" remarks="创建人" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CREATED_TIME" remarks="创建时间" type="${timestamp.type}">
+				<constraints nullable="false" />
+			</column>
+			<column name="LAST_UPDATED_BY" remarks="最后更新人" type="${varchar2.type}(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="LAST_UPDATED_TIME" remarks="最后更新时间" type="${timestamp.type}">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint columnNames="APP_ID"
+			constraintName="IDX_DEMO_APPLICATION_U1" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="DEMO_APPLICATION" />
+	</changeSet>
+	
+	<changeSet author="Rain Wang" id="DEMO_APPLICATION_V_2_0_0">
+		<comment>modify column length to 1024</comment>
+		<modifyDataType tableName="DEMO_APPLICATION" columnName="SECURE_KEY" newDataType="${varchar2.type}(1024)" />
+		<modifyDataType tableName="DEMO_APPLICATION" columnName="PRIVATE_KEY" newDataType="${varchar2.type}(1024)" />
+	</changeSet>	
+	
+	<changeSet author="Wilson" id="DEMO_APPLICATION_V_2_0_1">
+		<preConditions onFail="MARK_RAN" onError="MARK_RAN">
+			<and>
+				<tableExists tableName="DEMO_APPLICATION" />
+				<not>
+					<columnExists tableName="DEMO_APPLICATION" columnName="USE_ATTRS" />
+				</not>
+			</and>
+		</preConditions>
+		<comment>CAS回传属性设置</comment>
+		<addColumn tableName="DEMO_APPLICATION">
+			<column defaultValueNumeric="0" name="USE_ATTRS" remarks="是否回传属性" type="${number.type}(1,0)">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<addColumn tableName="DEMO_APPLICATION">
+			<column name="ALLOWED_ATTRS" remarks="回传属性列表" type="${varchar2.type}(1024)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+	</changeSet>	
+		
+</databaseChangeLog>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.macula.cart</groupId>
+	<artifactId>macula-cart-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>macula-cart-parent</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdkLevel>1.7</jdkLevel>
+		<jvmargs>-XX:MaxPermSize=384m -Xms512m -Xmx1024m</jvmargs>
+		<macula.version>3.0.0-SNAPSHOT</macula.version>
+		<macula.plugins.version>3.0.0-SNAPSHOT</macula.plugins.version>
+		<mockito.version>1.9.5</mockito.version>
+		<junit.version>4.12</junit.version>
+		<hsql.version>2.3.2</hsql.version>
+		<spring.version>4.1.7.RELEASE</spring.version>
+		<servlet.version>3.0.1</servlet.version>
+		<jta.version>1.1</jta.version>
+		<oracle.version>11.2.0.3.0</oracle.version>
+		<mysql.version>5.1.35</mysql.version>
+		<liquibase.version>3.0.8</liquibase.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>macula-repo</id>
+			<name>macula-repo</name>
+			<url>http://maven.infinitus.com.cn:8081/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>macula-repo</id>
+			<name>macula-repo</name>
+			<url>http://maven.infinitus.com.cn:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>test</id>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- HSQL -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsql.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Oracle Driver -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- MySQL Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>test</scope>
+		</dependency>		
+
+		<!-- J2EE -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>${jta.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Macula -->
+		<dependency>
+			<groupId>org.macula</groupId>
+			<artifactId>macula-base</artifactId>
+			<version>${macula.version}</version>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Oracle Driver -->
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>${oracle.version}</version>
+			</dependency>
+
+			<!-- MySQL Driver -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<!-- liquibase -->
+			<dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>${liquibase.version}</version>
+			</dependency>
+
+			<!-- Macula Plugins -->
+			<dependency>
+				<groupId>org.macula.plugins</groupId>
+				<artifactId>macula-plugins-admin</artifactId>
+				<version>${macula.plugins.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.macula.plugins</groupId>
+				<artifactId>macula-plugins-esb</artifactId>
+				<version>${macula.plugins.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.macula.plugins</groupId>
+				<artifactId>macula-plugins-mda</artifactId>
+				<version>${macula.plugins.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.macula.plugins</groupId>
+				<artifactId>macula-plugins-monitor</artifactId>
+				<version>${macula.plugins.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.macula.plugins</groupId>
+				<artifactId>macula-plugins-webapp</artifactId>
+				<version>${macula.plugins.version}</version>
+				<type>war</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${jdkLevel}</source>
+					<target>${jdkLevel}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>false</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<useFile>false</useFile>
+					<junitArtifactName>junit:junit</junitArtifactName>
+					<forkMode>always</forkMode>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.5.1</version>
+				<executions>
+					<execution>
+						<id>do-compress</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>utf-8</encoding>
+					<suffix>.min</suffix>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<!-- http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>net.alchim31.maven</groupId>
+										<artifactId>yuicompressor-maven-plugin</artifactId>
+										<versionRange>[1.0,)</versionRange>
+										<goals>
+											<goal>compress</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
