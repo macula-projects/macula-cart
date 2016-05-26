@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.macula.cart</groupId>
 		<artifactId>macula-cart-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0.RELEASE-SNAPSHOT</version>
 		<relativePath>../macula-cart-parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>macula-cart-webapp</artifactId>
@@ -62,7 +62,7 @@
 						<exclude>**/*.min.js</exclude>
 						<exclude>**/*.min.css</exclude>
 					</excludes>
-					<resources></resources>
+					<resources />
 					<webappDirectory>${project.build.directory}/yui_webmin</webappDirectory>
 				</configuration>
 			</plugin>
