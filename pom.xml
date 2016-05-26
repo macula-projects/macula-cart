@@ -95,18 +95,15 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<preparationGoals>clean</preparationGoals>
-					<goals>package</goals>
-					<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-					<releaseProfiles>prd</releaseProfiles>
-				</configuration>
-			</plugin>
+	        <plugin>
+	            <groupId>external.atlassian.jgitflow</groupId>
+	            <artifactId>jgitflow-maven-plugin</artifactId>
+	            <version>1.0-m5.1</version>
+	            <configuration>
+	                <autoVersionSubmodules>true</autoVersionSubmodules>
+	            </configuration>
+	        </plugin>
+	        			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
