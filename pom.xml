@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.macula.cart</groupId>
 	<artifactId>macula-cart</artifactId>
-	<version>1.1.1</version>
+	<version>1.2</version>
 	<packaging>pom</packaging>
 	<name>macula-cart</name>
 
@@ -103,8 +103,14 @@
 	                <autoVersionSubmodules>true</autoVersionSubmodules>
 	                <preparationGoals>clean</preparationGoals>
 	                <allowSnapshots>true</allowSnapshots>
-	                <noDeploy>true</noDeploy>
+	                
+	                <pushHotfixes>true</pushHotfixes>
+	                <pushFeatures>true</pushFeatures>
 	                <pushReleases>true</pushReleases>
+	                
+	                <noHotfixBuild>true</noHotfixBuild>
+	                <noFeatureBuild>true</noFeatureBuild>
+	                <noReleaseBuild>true</noReleaseBuild>
 	            </configuration>
 	        </plugin>
 	        			
