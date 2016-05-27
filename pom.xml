@@ -104,6 +104,7 @@
 	                <preparationGoals>clean</preparationGoals>
 	                <allowSnapshots>true</allowSnapshots>
 	                <noDeploy>true</noDeploy>
+	                <pushReleases>true</pushReleases>
 	            </configuration>
 	        </plugin>
 	        			
