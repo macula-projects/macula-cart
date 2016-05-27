@@ -103,6 +103,7 @@
 	                <autoVersionSubmodules>true</autoVersionSubmodules>
 	                <preparationGoals>clean</preparationGoals>
 	                <allowSnapshots>true</allowSnapshots>
+	                <noDeploy>true</noDeploy>
 	            </configuration>
 	        </plugin>
 	        			
