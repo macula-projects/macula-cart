@@ -17,6 +17,25 @@
 	</properties>	
 
 	<dependencies>
+	
+		<!-- Oracle Driver -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+		</dependency>
+
+		<!-- MySQL Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- liquibase -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+			
 		<dependency>
 			<groupId>org.macula.plugins</groupId>
 			<artifactId>macula-plugins-webapp</artifactId>
