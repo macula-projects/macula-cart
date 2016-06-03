@@ -129,6 +129,7 @@
 				<configuration>
 					<aggregate>true</aggregate>
 					<breakiterator>true</breakiterator>
+					<additionalparam>-Xdoclint:none</additionalparam>
 					<header>macula-cart</header>
 					<source>${jdk.Level}</source>
 					<show>protected</show>
