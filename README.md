@@ -17,3 +17,5 @@
 默认登录用户是 admin,密码是infi123*
 后端应用地址：http://localhost:8080/${rootArtifactId}-webapp/admin
 前端应用地址：http://localhost:8080/${rootArtifactId}-webapp/front
+
+1.3 release
