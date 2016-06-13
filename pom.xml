@@ -69,12 +69,26 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>prd</id>
+			<id>test</id>
 			<properties>
-				<maven.javadoc.skip>false</maven.javadoc.skip>
-				<maven.assembly.skip>false</maven.assembly.skip>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<maven.assembly.skip>true</maven.assembly.skip>
 			</properties>					
 		</profile>
+		<profile>
+			<id>staging</id>
+			<properties>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<maven.assembly.skip>true</maven.assembly.skip>
+			</properties>					
+		</profile>
+		<profile>
+			<id>prd</id>
+			<properties>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<maven.assembly.skip>true</maven.assembly.skip>
+			</properties>					
+		</profile>				
 	</profiles>
 
 	<repositories>

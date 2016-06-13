@@ -39,15 +39,6 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<profiles>
-		<profile>
-			<id>test</id>
-			<properties>
-				<skipTests>true</skipTests>
-			</properties>
-		</profile>
-	</profiles>
-
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
