@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.macula.cart</groupId>
 		<artifactId>macula-cart-parent</artifactId>
-		<version>1.5</version>
+		<version>1.6</version>
 		<relativePath>../macula-cart-parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>macula-cart-webapp</artifactId>
@@ -127,7 +127,7 @@
 									<outputDirectory>target/classes</outputDirectory>
 									<resources>
 										<resource>
-											<directory>src/main/deploy/dev</directory>
+											<directory>src/main/deploy/${environment}</directory>
 											<filtering>true</filtering>
 										</resource>
 									</resources>
@@ -139,9 +139,9 @@
 			</build>
 		</profile>
 		<profile>
-			<id>sit</id>
+			<id>test</id>
 			<properties>
-				<environment>sit</environment>
+				<environment>test</environment>
 			</properties>
 			<build>
 				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
@@ -159,7 +159,7 @@
 									<outputDirectory>target/classes</outputDirectory>
 									<resources>
 										<resource>
-											<directory>src/main/deploy/sit</directory>
+											<directory>src/main/deploy/${environment}</directory>
 											<filtering>true</filtering>
 										</resource>
 									</resources>
@@ -171,9 +171,9 @@
 			</build>
 		</profile>
 		<profile>
-			<id>uat</id>
+			<id>staging</id>
 			<properties>
-				<environment>uat</environment>
+				<environment>staging</environment>
 			</properties>
 			<build>
 				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
@@ -191,7 +191,7 @@
 									<outputDirectory>target/classes</outputDirectory>
 									<resources>
 										<resource>
-											<directory>src/main/deploy/uat</directory>
+											<directory>src/main/deploy/${environment}</directory>
 											<filtering>true</filtering>
 										</resource>
 									</resources>
@@ -226,7 +226,7 @@
 									<outputDirectory>target/classes</outputDirectory>
 									<resources>
 										<resource>
-											<directory>src/main/deploy/prd</directory>
+											<directory>src/main/deploy/${environment}</directory>
 											<filtering>true</filtering>
 										</resource>
 									</resources>

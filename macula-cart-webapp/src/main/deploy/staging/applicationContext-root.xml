@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010-2012 the original author or authors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+	
+	<context:component-scan base-package="org.macula.core.config" />
+
+	<import resource="classpath*:/META-INF/spring/macula-*-root.xml" />
+	
+	<!-- **************数据源的配置***************** -->
+	<bean id="macula_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	    <!-- 基本属性 url、user、password -->
+	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+	    <property name="username" value="root" />
+	    <property name="password" value="mysql" />
+	
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <property name="initialSize" value="1" />
+	    <property name="minIdle" value="1" /> 
+	    <property name="maxActive" value="20" />
+	
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <property name="maxWait" value="60000" />
+	
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+	
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <property name="minEvictableIdleTimeMillis" value="300000" />
+	
+	    <property name="validationQuery" value="SELECT 1 from dual" />
+	    <property name="testWhileIdle" value="true" />
+	    <property name="testOnBorrow" value="false" />
+	    <property name="testOnReturn" value="false" />
+	
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <property name="poolPreparedStatements" value="true" />
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	
+	    <!-- 配置监控统计拦截的filters -->
+	    <property name="filters" value="stat" /> 
+	</bean>	
+	
+	<bean id="macula-cart_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	    <!-- 基本属性 url、user、password -->
+	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/macula-cart?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+	    <property name="username" value="root" />
+	    <property name="password" value="mysql" />
+	
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <property name="initialSize" value="1" />
+	    <property name="minIdle" value="1" /> 
+	    <property name="maxActive" value="20" />
+	
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <property name="maxWait" value="60000" />
+	
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+	
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <property name="minEvictableIdleTimeMillis" value="300000" />
+	
+	    <property name="validationQuery" value="SELECT 1 from dual" />
+	    <property name="testWhileIdle" value="true" />
+	    <property name="testOnBorrow" value="false" />
+	    <property name="testOnReturn" value="false" />
+	
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <property name="poolPreparedStatements" value="true" />
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	
+	    <!-- 配置监控统计拦截的filters -->
+	    <property name="filters" value="stat" /> 
+	</bean>		
+	
+	<!-- ********************REDIS配置********************** -->
+	<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg index="0">
+			<bean class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+				<constructor-arg index="0" value="mymaster" />
+				<constructor-arg index="1">
+					<set>
+						<value>请填写生产redis地址:26379</value>
+						<value>请填写生产redis地址:26479</value>
+					</set>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<bean class="redis.clients.jedis.JedisPoolConfig">
+				 <property name="maxTotal" value="100"/>
+				 <property name="maxIdle" value="10"/>
+				 <property name="minIdle" value="1"/>
+				 <property name="maxWaitMillis" value="30000"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="redisConnectionFactory" />
+	</bean>
+	
+	<alias name="redisTemplate" alias="cacheRedisTemplate"/>
+	
+	<alias name="redisTemplate" alias="transportRedisTemplate"/>
+
+	<!-- 根据各个模块下的db/module/changelog.xml文件自动更新数据库 -->
+	<bean id="macula_liquibase" class="liquibase.integration.spring.SpringLiquibase" depends-on="macula_dataSource">
+		<property name="dataSource" ref="macula_dataSource" />
+		<property name="defaultSchema" value="macula3" />
+		<property name="changeLog" value="classpath:db/changelog-macula.xml" />
+		<property name="contexts" value="dev, test" />
+	</bean>
+	
+	<bean id="macula-cart_liquibase" class="liquibase.integration.spring.SpringLiquibase" depends-on="macula-cart_dataSource">
+		<property name="dataSource" ref="macula-cart_dataSource" />
+		<property name="defaultSchema" value="macula-cart" />
+		<property name="changeLog" value="classpath:db/changelog-macula-cart.xml" />
+		<property name="contexts" value="dev, test" />
+	</bean>	
+
+</beans>
+	

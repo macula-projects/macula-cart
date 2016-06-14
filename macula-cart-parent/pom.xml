@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.macula.cart</groupId>
 	<artifactId>macula-cart-parent</artifactId>
-	<version>1.5</version>
+	<version>1.6</version>
 	<packaging>pom</packaging>
 	<name>macula-cart-parent</name>
 
@@ -38,15 +38,6 @@
 			<url>http://maven.infinitus.com.cn:8081/nexus/content/groups/public</url>
 		</pluginRepository>
 	</pluginRepositories>
-
-	<profiles>
-		<profile>
-			<id>test</id>
-			<properties>
-				<skipTests>true</skipTests>
-			</properties>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<!-- JUnit -->
