@@ -97,7 +97,7 @@
 					</webResources>
 					<archive>
 						<manifestEntries>
-							<Manifest-Version>macula-cart-${environment}[${project.version}.${buildNumber}]</Manifest-Version>
+							<Manifest-Version>macula-cart-${environment}[${project.version}.b${buildNumber}]</Manifest-Version>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -112,7 +112,7 @@
 				<environment>dev</environment>
 			</properties>
 			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
+				<finalName>macula-cart-${environment}[${project.version}.b${buildNumber}]</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -144,7 +144,7 @@
 				<environment>test</environment>
 			</properties>
 			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
+				<finalName>macula-cart-${environment}[${project.version}.b${buildNumber}]</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -176,7 +176,7 @@
 				<environment>staging</environment>
 			</properties>
 			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
+				<finalName>macula-cart-${environment}[${project.version}.b${buildNumber}]</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -211,7 +211,7 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
+				<finalName>macula-cart-${environment}[${project.version}.b${buildNumber}]</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
