@@ -149,11 +149,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.macula.plugins</groupId>
-				<artifactId>macula-plugins-monitor</artifactId>
-				<version>${macula.plugins.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.macula.plugins</groupId>
 				<artifactId>macula-plugins-webapp</artifactId>
 				<version>${macula.plugins.version}</version>
 				<type>war</type>

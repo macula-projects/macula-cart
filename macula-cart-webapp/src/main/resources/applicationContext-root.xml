@@ -30,9 +30,9 @@
 	<!-- **************数据源的配置***************** -->
 	<bean id="macula_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	    <!-- 基本属性 url、user、password -->
-	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+	    <property name="url" value="jdbc:mysql://172.20.70.21:3306/macula3?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
 	    <property name="username" value="root" />
-	    <property name="password" value="mysql" />
+	    <property name="password" value="" />
 	
 	    <!-- 配置初始化大小、最小、最大 -->
 	    <property name="initialSize" value="1" />
@@ -63,9 +63,9 @@
 	
 	<bean id="macula-cart_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	    <!-- 基本属性 url、user、password -->
-	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/macula-cart?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+	    <property name="url" value="jdbc:mysql://172.20.70.21:3306/maculacart?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
 	    <property name="username" value="root" />
-	    <property name="password" value="mysql" />
+	    <property name="password" value="" />
 	
 	    <!-- 配置初始化大小、最小、最大 -->
 	    <property name="initialSize" value="1" />
