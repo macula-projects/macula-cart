@@ -30,7 +30,7 @@ public class MyPreAuthenticationHandler implements PreAuthenticationHandler {
 
 		String username = request.getParameter("username");
 		if (username != null) {
-			return new UserPrincipalImpl(username);
+			return new UserPrincipalImpl(username, null);
 		}
 		return null;
 	}
