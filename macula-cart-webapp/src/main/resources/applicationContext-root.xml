@@ -23,7 +23,7 @@
 
 	<context:annotation-config />
 	
-	<context:component-scan base-package="org.macula.core.config" />
+	<context:component-scan base-package="org.macula.core.configuration" />
 
 	<import resource="classpath*:/META-INF/spring/macula-*-root.xml" />
 	
