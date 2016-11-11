@@ -32,6 +32,11 @@
 			<groupId>org.macula.plugins</groupId>
 			<artifactId>macula-plugins-dubbo</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.macula.plugins</groupId>
+			<artifactId>macula-plugins-cat</artifactId>
+		</dependency>		
 	</dependencies>
 
 	<build>
