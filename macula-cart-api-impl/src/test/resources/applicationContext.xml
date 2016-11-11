@@ -25,6 +25,8 @@
 
 	<import resource="classpath*:/META-INF/spring/macula-*-consumer.xml" />
 	
+	<dubbo:reference id="registryService" interface="com.alibaba.dubbo.registry.RegistryService" check="false" />
+		
 	<dubbo:application name="cart-api-consumer" />
 	<dubbo:registry address="zookeeper://172.20.70.193:2181" file="#{T(java.lang.System).getProperty('user.home')}/.dubbo/cart-api-consumer.cache"/>
 </beans>
