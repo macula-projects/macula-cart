@@ -294,5 +294,7 @@
     <module>macula-cart-mobile</module>
     <module>macula-cart-webapp</module>
     <module>macula-cart-parent</module>
+    <module>macula-cart-api</module>
+    <module>macula-cart-api-impl</module>
   </modules>
 </project>
