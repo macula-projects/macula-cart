@@ -5,7 +5,7 @@ package org.macula.cart.api;
 
 /**
  * <p>
- * <b>DemoService</b> API接口
+ * <b>DemoService</b> API接口 演示
  * </p>
  *
  * @since 2016年4月20日
