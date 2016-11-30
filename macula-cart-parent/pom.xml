@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdkLevel>1.7</jdkLevel>
 		<jvmargs>-XX:MaxPermSize=384m -Xms512m -Xmx1024m</jvmargs>
-		<macula.version>3.0.0-SNAPSHOT</macula.version>
+		<macula.version>3.1.0-SNAPSHOT</macula.version>
 		<macula.plugins.version>3.0.0-SNAPSHOT</macula.plugins.version>
 		<mockito.version>1.10.19</mockito.version>
 		<junit.version>4.12</junit.version>

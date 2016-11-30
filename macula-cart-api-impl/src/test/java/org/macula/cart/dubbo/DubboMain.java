@@ -5,19 +5,40 @@ package org.macula.cart.dubbo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.macula.ApplicationContext;
+import org.macula.Configuration;
+import org.macula.core.utils.StringUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.AbstractEnvironment;
 
 public class DubboMain {
 
-	private static final Log log = LogFactory.getLog(DubboMain.class);
+	static {
+		String profile = Configuration.getProfile();
+		if (StringUtils.isNotEmpty(profile)) {
+			String profilePath = Configuration.getProfilePath();
 
-	public static void mainx(String[] args) {
+			// FOR log4j see LogManager
+			System.setProperty("log4j.configuration", profilePath + "log4j.properties");
+
+			// FOR Spring Profile see AbstractEnvironment
+			System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, profile);
+			
+			// FOR macula.properties
+			// 在PropertyConfigurationProvider中加入环境变量路径设置
+
+			// FOR FreeMarker
+			// 在 applicationContext-macula.xml中加入环境路径相关配置
+			// FOR JDBC
+			// 在 applicationContext-root.xml中加入环境路径相关配置，数据源具体配置会放在drui-xxx.properties中
+			// FOR Redis
+			// 在 applicationContext-root.xml中使用beans的profile配置
+			// 上述配置在XML中指定
+		}
+	}
+	
+	public static void main(String[] args) {
 		try {
 			long startTime = System.currentTimeMillis();
 
@@ -33,31 +54,16 @@ public class DubboMain {
 			System.out.println(new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]").format(new Date()) + " Dubbo service server started in "
 					+ ((endTime - startTime) / 1000) + "s");
 		} catch (Exception e) {
-			log.error("== DubboProvider context start error:", e);
+			e.printStackTrace();
 		}
 		synchronized (DubboMain.class) {
 			while (true) {
 				try {
 					DubboMain.class.wait();
 				} catch (InterruptedException e) {
-					log.error("== synchronized error:", e);
+					e.printStackTrace();
 				}
 			}
 		}
 	}
-
-	public static void main(String args[]) {
-		String str = "estore-dev.infinitus.com.cn";
-		//String pattern = "^.+?(\\.[A-Za-z0-9\\.\\-]+)$";
-		String pattern = "^.+?(\\..*?[\\w\\-]+\\.[a-zA-Z]+)$";
-		
-		Pattern r = Pattern.compile(pattern);
-		Matcher m = r.matcher(str);
-		if (m.matches()) {
-			System.out.println(m.group(0) + ",  " + m.group(1));
-		} else {
-			System.out.println("no match");
-		}
-	}
-
 }
