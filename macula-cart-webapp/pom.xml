@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.macula.cart</groupId>
 		<artifactId>macula-cart-parent</artifactId>
-		<version>1.6.1</version>
+		<version>1.7</version>
 		<relativePath>../macula-cart-parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>macula-cart-webapp</artifactId>
@@ -41,10 +41,7 @@
 			<artifactId>macula-plugins-webapp</artifactId>
 			<type>war</type>
 		</dependency>
-		<dependency>
-			<groupId>org.macula.plugins</groupId>
-			<artifactId>macula-plugins-monitor</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.macula.plugins</groupId>
 			<artifactId>macula-plugins-admin</artifactId>
@@ -67,7 +64,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>macula-cart-webapp</finalName>
+		<finalName>macula-cart[${project.version}.b${buildNumber}]</finalName>
 		<plugins>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
@@ -97,145 +94,11 @@
 					</webResources>
 					<archive>
 						<manifestEntries>
-							<Manifest-Version>macula-cart-${environment}[${project.version}.${buildNumber}]</Manifest-Version>
+							<Manifest-Version>macula-cart[${project.version}.b${buildNumber}]</Manifest-Version>
 						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<environment>dev</environment>
-			</properties>
-			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/${environment}</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>test</id>
-			<properties>
-				<environment>test</environment>
-			</properties>
-			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/${environment}</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>staging</id>
-			<properties>
-				<environment>staging</environment>
-			</properties>
-			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/${environment}</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>prd</id>
-			<properties>
-				<environment>prd</environment>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<finalName>macula-cart-${environment}[${project.version}.${buildNumber}]</finalName>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/${environment}</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

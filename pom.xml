@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.macula.cart</groupId>
 	<artifactId>macula-cart</artifactId>
-	<version>1.6.1</version>
+	<version>1.7</version>
 	<packaging>pom</packaging>
 	<name>macula-cart</name>
 
@@ -294,5 +294,7 @@
     <module>macula-cart-mobile</module>
     <module>macula-cart-webapp</module>
     <module>macula-cart-parent</module>
+    <module>macula-cart-api</module>
+    <module>macula-cart-api-impl</module>
   </modules>
 </project>

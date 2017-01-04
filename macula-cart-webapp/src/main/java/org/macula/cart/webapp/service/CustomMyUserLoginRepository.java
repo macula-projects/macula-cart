@@ -31,10 +31,10 @@ public class CustomMyUserLoginRepository implements CustomUserLoginRepository {
 	@Override
 	public UserPrincipal loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO 以下代码需要替换
-		UserPrincipalImpl user = new UserPrincipalImpl(username);
+		UserPrincipalImpl user = null;
 		// 在开发环境下，如果没有实现用户Respository，则提供一个超级密码
 		if (MaculaConstants.RUN_MODE_DEV.equals(Configuration.getRunMode())) {
-			user.setPassword(passwordEncoder.encode("infi123*"));
+			user = new UserPrincipalImpl(username, passwordEncoder.encode("infi123*"));
 		}
 		return user;
 		

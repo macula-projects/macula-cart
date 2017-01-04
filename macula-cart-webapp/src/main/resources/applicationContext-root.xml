@@ -23,82 +23,40 @@
 
 	<context:annotation-config />
 	
-	<context:component-scan base-package="org.macula.core.config" />
+	<context:component-scan base-package="org.macula.core.configuration" />
 
 	<import resource="classpath*:/META-INF/spring/macula-*-root.xml" />
 	
 	<!-- **************数据源的配置***************** -->
 	<bean id="macula_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
-	    <!-- 基本属性 url、user、password -->
-	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
-	    <property name="username" value="root" />
-	    <property name="password" value="mysql" />
-	
-	    <!-- 配置初始化大小、最小、最大 -->
-	    <property name="initialSize" value="1" />
-	    <property name="minIdle" value="1" /> 
-	    <property name="maxActive" value="20" />
-	
-	    <!-- 配置获取连接等待超时的时间 -->
-	    <property name="maxWait" value="60000" />
-	
-	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-	
-	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-	    <property name="minEvictableIdleTimeMillis" value="300000" />
-	
-	    <property name="validationQuery" value="SELECT 1 from dual" />
-	    <property name="testWhileIdle" value="true" />
-	    <property name="testOnBorrow" value="false" />
-	    <property name="testOnReturn" value="false" />
-	
-	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-	    <property name="poolPreparedStatements" value="true" />
-	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
-	
-	    <!-- 配置监控统计拦截的filters -->
-	    <property name="filters" value="stat" /> 
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat,config" />
+		<!-- 配置CAT拦截 -->
+		<property name="proxyFilters">
+			<list>
+				<bean class="org.macula.plugins.cat.druid.CatFilter" />
+			</list>
+		</property>
+		<!-- 配置数据源连接 -->
+		<property name="connectionProperties"
+			value="config.file=classpath:#{T(org.macula.Configuration).getProfilePath()}druid-macula.properties" />
 	</bean>	
 	
 	<bean id="macula-cart_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
-	    <!-- 基本属性 url、user、password -->
-	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/macula-cart?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
-	    <property name="username" value="root" />
-	    <property name="password" value="mysql" />
-	
-	    <!-- 配置初始化大小、最小、最大 -->
-	    <property name="initialSize" value="1" />
-	    <property name="minIdle" value="1" /> 
-	    <property name="maxActive" value="20" />
-	
-	    <!-- 配置获取连接等待超时的时间 -->
-	    <property name="maxWait" value="60000" />
-	
-	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-	
-	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-	    <property name="minEvictableIdleTimeMillis" value="300000" />
-	
-	    <property name="validationQuery" value="SELECT 1 from dual" />
-	    <property name="testWhileIdle" value="true" />
-	    <property name="testOnBorrow" value="false" />
-	    <property name="testOnReturn" value="false" />
-	
-	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-	    <property name="poolPreparedStatements" value="true" />
-	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
-	
-	    <!-- 配置监控统计拦截的filters -->
-	    <property name="filters" value="stat" /> 
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat,config" />
+		<!-- 配置CAT拦截 -->
+		<property name="proxyFilters">
+			<list>
+				<bean class="org.macula.plugins.cat.druid.CatFilter" />
+			</list>
+		</property>
+		<!-- 配置数据源连接 -->
+		<property name="connectionProperties"
+			value="config.file=classpath:#{T(org.macula.Configuration).getProfilePath()}druid-cart.properties" />
 	</bean>		
 	
 	<!-- ********************REDIS配置********************** -->
-	<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-		<property name="hostName" value="127.0.0.1" />
-	</bean>
-
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="redisConnectionFactory" />
 	</bean>
@@ -121,6 +79,18 @@
 		<property name="changeLog" value="classpath:db/changelog-macula-cart.xml" />
 		<property name="contexts" value="dev, test" />
 	</bean>	
+	
+	<beans profile="dev,default">
+		<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+			<property name="hostName" value="127.0.0.1" />
+		</bean>
+	</beans>
+
+	<beans profile="local">
+		<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+			<property name="hostName" value="localhost" />
+		</bean>
+	</beans>		
 
 </beans>
 	

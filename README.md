@@ -18,4 +18,4 @@
 后端应用地址：http://localhost:8080/${rootArtifactId}-webapp/admin
 前端应用地址：http://localhost:8080/${rootArtifactId}-webapp/front
 
-1.3 release
+1.7 release
