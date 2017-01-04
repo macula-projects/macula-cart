@@ -144,12 +144,5 @@
 		<property name="fallbackToSystemLocale" value="false" />
 	</bean>
 
-	<bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
-		<property name="locateExistingServerIfPossible" value="true" />
-		<property name="agentId" value="" />
-	</bean>
-
-	<context:mbean-export server="mbeanServer" />
-
 	<aop:aspectj-autoproxy />
 </beans>
