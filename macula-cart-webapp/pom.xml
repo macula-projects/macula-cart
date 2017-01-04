@@ -64,7 +64,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>macula-cart[${project.version}.b${buildNumber}]</finalName>
+		<finalName>macula-cart[${project.version}.${buildNumber}]</finalName>
 		<plugins>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
