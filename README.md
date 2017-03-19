@@ -1,6 +1,6 @@
-#Macula Cart(网上商城示例)
+# Macula Cart(网上商城示例)
 
-###运行本示例的准备：
+### 运行本示例的准备：
 
 * 安装mysql和redis
 * 需要提供一个mysql数据库，创建好macula3和${rootArtifactId}，注意修改mysql数据库的相关连接信息
