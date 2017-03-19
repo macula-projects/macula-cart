@@ -3,5 +3,5 @@
 	
 	<groupId>org.macula.cart</groupId>
 	<artifactId>macula-cart-api</artifactId>
-	<version>1.9-SNAPSHOT</version>
+	<version>1.9</version>
 </project>
