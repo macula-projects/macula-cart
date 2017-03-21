@@ -2,6 +2,7 @@ node {
 	stage('Checkout') {
     	checkout scm
 		echo "My branch is: ${env.BRANCH_NAME}"
+		echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} and ${env.JOB_NAME}"
 	}
 	
     stage('Build') {
