@@ -42,7 +42,7 @@ node {
 			
 		throw err
 	} finally {
-		def email_to = "rainwzp@163.com"
+		def email_to = "rainsoft@163.com"
 		(currentBuild.result != "ABORTED") && node("master") {
      		// Send e-mail notifications for failed or unstable builds.
      		// currentBuild.result must be non-null for this step to work.
