@@ -7,7 +7,7 @@ if (profile == 'prd') {
 	properties([discarder])
 } else {
 	// 定时0点的某个时间点运行
-	def triggers = pipelineTriggers([cron('H/2 * * * *')])
+	def triggers = pipelineTriggers([[$class:"SCMTrigger", scmpoll_spec:"H/2 * * * *"]])
 	
 	properties([discarder, triggers])
 }
