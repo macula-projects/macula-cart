@@ -1,3 +1,17 @@
+def profile = getProfile()
+ 
+// 设置Pipe只保存最近5次的build
+def discarder = [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numberToKeepStr: '5']]
+
+if (profile == 'prd') {
+	properties([discarder])
+} else {
+	// 定时0点的某个时间点运行
+	def triggers = pipelineTriggers([cron('H 0 * * *')])
+	
+	properties([discarder, triggers])
+}
+
 node {
 	try {
 		stage('Checkout') {
@@ -34,4 +48,32 @@ node {
      		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "${email_to}", sendToIndividuals: true])
  		}
 	}
+}
+
+
+def getProfile() {
+	def profile = "dev"
+	
+	// 开发环境(develop和feature/hotfix分支)
+    def matcher1 = (env.BRANCH_NAME =~ /develop|(feature|hotfix)\/(.*)|/)
+	if (matcher1.matches()) {
+		profile = "dev"
+	}
+	
+	// 测试环境
+	def matcher2 = (env.BRANCH_NAME =~ /release\/(.*)/)
+	if (matcher2.matches()) {
+		profile = "test"
+	}
+	
+	// 准生产环境和生产环境
+	if (env.BRANCH_NAME == "master") {
+		if (env.JOB_NAME.contains("-prd")) {
+			profile = "prd"
+		} else {	
+			profile = "staging"
+		}
+	}
+	
+	profile
 }
