@@ -38,15 +38,18 @@ node {
 		        body: "It appears that ${env.BUILD_URL} is failing, somebody should do something about that",
 		          to: recipient,
 		     replyTo: recipient,
-				from: 'noreply@ci.jenkins.io'
+				from: 'rainsoft@163.com'
 			
 		throw err
 	} finally {
 		def email_to = "rainsoft@163.com"
 		(currentBuild.result != "ABORTED") && node("master") {
-     		// Send e-mail notifications for failed or unstable builds.
-     		// currentBuild.result must be non-null for this step to work.
-     		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "${email_to}", sendToIndividuals: true])
+			String recipient = 'rain.wang@infinitus-int.com'
+			mail subject: "${env.JOB_NAME} (${env.BUILD_NUMBER}) failed",
+			        body: "It appears that ${env.BUILD_URL} is failing, somebody should do something about that",
+			          to: recipient,
+			     replyTo: recipient,
+					from: 'rainsoft@163.com'
  		}
 	}
 }
