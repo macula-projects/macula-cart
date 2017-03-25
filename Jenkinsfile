@@ -1,7 +1,7 @@
 def profile = getProfile()
  
 // 设置Pipe只保存最近5次的build
-def discarder = [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numberToKeepStr: '5']]
+def discarder = [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]
 
 if (profile == 'prd') {
 	properties([discarder])
