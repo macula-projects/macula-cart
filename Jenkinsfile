@@ -7,7 +7,7 @@ if (profile == 'prd') {
 	properties([discarder])
 } else {
 	// 定时0点的某个时间点运行
-	def triggers = pipelineTriggers([cron('H 0 * * *')])
+	def triggers = pipelineTriggers([cron('H/2 * * * *')])
 	
 	properties([discarder, triggers])
 }
@@ -42,6 +42,7 @@ node {
 			
 		throw err
 	} finally {
+		def email_to = "rainwzp@163.com"
 		(currentBuild.result != "ABORTED") && node("master") {
      		// Send e-mail notifications for failed or unstable builds.
      		// currentBuild.result must be non-null for this step to work.
