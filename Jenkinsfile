@@ -100,6 +100,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
   	emailext (
       	subject: subject,
       	body: details,
+		to: "rainsoft@163.com",
       	recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     )
 }
