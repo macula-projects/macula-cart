@@ -64,7 +64,25 @@
 	</dependencies>
 
 	<build>
-		<finalName>macula-cart[${project.version}.${buildNumber}]</finalName>
+		<finalName>macula-cart-${environment}[${project.version}.b${buildNumber}]</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                	<!-- 排除各环境配置 -->
+                    <exclude>configs/local/*</exclude>
+                    <exclude>configs/dev/*</exclude>
+                    <exclude>configs/test/*</exclude>
+                    <exclude>configs/staging/*</exclude>
+                    <exclude>configs/prd/*</exclude>
+                    <!-- 排除开发的默认配置，防止混乱 -->
+                    <exclude>*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
 		<plugins>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
@@ -88,17 +106,50 @@
 				<version>2.6</version>
 				<configuration>
 					<webResources>
+						<!-- 将js等静态文件拷贝到resources中 -->
 						<resource>
 							<directory>${project.build.directory}/yui_webmin</directory>
+						</resource>
+						<!-- 将对应环境配置文件拷贝到WEB-INF/classes中 -->
+						<resource>
+							<directory>src/main/resources/configs/${environment}</directory>
+							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
 					</webResources>
 					<archive>
 						<manifestEntries>
-							<Manifest-Version>macula-cart[${project.version}.b${buildNumber}]</Manifest-Version>
+							<Manifest-Version>macula-cart-${environment}[${project.version}.b${buildNumber}]</Manifest-Version>
 						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<environment>dev</environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<environment>test</environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>staging</id>
+			<properties>
+				<environment>staging</environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>prd</id>
+			<properties>
+				<environment>prd</environment>
+			</properties>
+		</profile>
+	</profiles>
 </project>
