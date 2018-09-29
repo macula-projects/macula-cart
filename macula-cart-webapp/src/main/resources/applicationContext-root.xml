@@ -16,16 +16,18 @@
     limitations under the License.
 
 -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
-	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-	<context:annotation-config />
-	
-	<context:component-scan base-package="org.macula.core.configuration" />
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<import resource="classpath*:/META-INF/spring/macula-*-root.xml" />
+
+	<!-- 应用自己的配置文件，可以集中存放，未来可以使用统一配置服务器 -->	
+	<util:properties id="appconfig" location="#{T(org.macula.Configuration).getProperty('macula.appConfigUrl')}" />
+	<context:property-placeholder properties-ref="appconfig" />
 	
 	<!-- **************数据源的配置***************** -->
 	<bean id="macula_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
@@ -38,8 +40,7 @@
 			</list>
 		</property>
 		<!-- 配置数据源连接 -->
-		<property name="connectionProperties"
-			value="config.file=classpath:#{T(org.macula.Configuration).getProfilePath()}druid-macula.properties" />
+		<property name="connectionProperties" value="${macula.connectionProperties}" />
 	</bean>	
 	
 	<bean id="macula-cart_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
@@ -52,8 +53,7 @@
 			</list>
 		</property>
 		<!-- 配置数据源连接 -->
-		<property name="connectionProperties"
-			value="config.file=classpath:#{T(org.macula.Configuration).getProfilePath()}druid-cart.properties" />
+		<property name="connectionProperties" value="${cart.connectionProperties}" />
 	</bean>		
 	
 	<!-- ********************REDIS配置********************** -->
@@ -64,21 +64,6 @@
 	<alias name="redisTemplate" alias="cacheRedisTemplate"/>
 	
 	<alias name="redisTemplate" alias="transportRedisTemplate"/>
-
-	<!-- 根据各个模块下的db/module/changelog.xml文件自动更新数据库 -->
-	<bean id="macula_liquibase" class="liquibase.integration.spring.SpringLiquibase" depends-on="macula_dataSource">
-		<property name="dataSource" ref="macula_dataSource" />
-		<property name="defaultSchema" value="macula3" />
-		<property name="changeLog" value="classpath:db/changelog-macula.xml" />
-		<property name="contexts" value="dev, test" />
-	</bean>
-	
-	<bean id="macula-cart_liquibase" class="liquibase.integration.spring.SpringLiquibase" depends-on="macula-cart_dataSource">
-		<property name="dataSource" ref="macula-cart_dataSource" />
-		<property name="defaultSchema" value="macula-cart" />
-		<property name="changeLog" value="classpath:db/changelog-macula-cart.xml" />
-		<property name="contexts" value="dev, test" />
-	</bean>	
 	
 	<beans profile="dev,default">
 		<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
@@ -90,7 +75,41 @@
 		<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 			<property name="hostName" value="localhost" />
 		</bean>
-	</beans>		
+	</beans>
+	
+	<!-- ********************ZOOKEEPER配置********************** -->
+	<beans profile="dev, test">
+		<bean id="maculaCuratorFramework" class="org.macula.core.configuration.reloadable.CuratorFrameworkFactoryBean" init-method="start" destroy-method="stop">
+			<constructor-arg index="0" type="java.lang.String" value="${zookeeper.address}" />
+			<constructor-arg index="1" type="org.apache.curator.RetryPolicy"> <!-- 连接重试策略 -->
+				<bean class="org.apache.curator.retry.ExponentialBackoffRetry">
+					<constructor-arg index="0">
+						<value>1000</value>
+					</constructor-arg>
+					<constructor-arg index="1">
+						<value>3</value>
+					</constructor-arg>
+				</bean>
+			</constructor-arg>
+		</bean>	
+	</beans>	
 
+	<!-- ********************liquibase配置，自动更新数据库结构和数据********************** -->
+	<beans  profile="default,dev,test">
+		<!-- 根据各个模块下的db/module/changelog.xml文件自动更新数据库 -->
+		<bean id="macula_liquibase" class="liquibase.integration.spring.SpringLiquibase" depends-on="macula_dataSource">
+			<property name="dataSource" ref="macula_dataSource" />
+			<property name="defaultSchema" value="macula3" />
+			<property name="changeLog" value="classpath:db/changelog-macula.xml" />
+			<property name="contexts" value="dev, test" />
+		</bean>
+		
+		<bean id="macula-cart_liquibase" class="liquibase.integration.spring.SpringLiquibase" depends-on="macula-cart_dataSource">
+			<property name="dataSource" ref="macula-cart_dataSource" />
+			<property name="defaultSchema" value="macula-cart" />
+			<property name="changeLog" value="classpath:db/changelog-macula-cart.xml" />
+			<property name="contexts" value="dev, test" />
+		</bean>
+	</beans>
 </beans>
 	

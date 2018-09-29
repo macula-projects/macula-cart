@@ -65,24 +65,6 @@
 
 	<build>
 		<finalName>macula-cart-${environment}[${project.version}.b${buildNumber}]</finalName>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <excludes>
-                	<!-- 排除各环境配置 -->
-                    <exclude>configs/local/*</exclude>
-                    <exclude>configs/dev/*</exclude>
-                    <exclude>configs/test/*</exclude>
-                    <exclude>configs/staging/*</exclude>
-                    <exclude>configs/prd/*</exclude>
-                    <!-- 排除开发的默认配置，防止混乱 -->
-                    <exclude>*.properties</exclude>
-                </excludes>
-            </resource>
-        </resources>
-
 		<plugins>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>

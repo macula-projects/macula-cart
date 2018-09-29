@@ -16,22 +16,23 @@
     limitations under the License.
 
 -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	                    http://code.alibabatech.com/schema/dubbo http://macula.top/schema/dubbo/dubbo.xsd">
-
-	<context:annotation-config />
-	
-	<context:component-scan base-package="org.macula.core.configuration" />
+	                    http://code.alibabatech.com/schema/dubbo http://macula.infinitus.com.cn/schema/dubbo/dubbo.xsd
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<import resource="classpath*:/META-INF/spring/macula-*-root.xml" />
+
+	<!-- 应用自己的配置文件，可以集中存放，未来可以使用统一配置服务器 -->	
+	<util:properties id="appconfig" location="#{T(org.macula.Configuration).getProperty('macula.appConfigUrl')}" />
+	<context:property-placeholder properties-ref="appconfig" />
 	
 	<!-- **************数据源的配置***************** -->
-	<bean id="macula-cart_dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
+	<bean id="macula_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 		<!-- 配置监控统计拦截的filters -->
 		<property name="filters" value="stat,config" />
 		<!-- 配置CAT拦截 -->
@@ -41,8 +42,21 @@
 			</list>
 		</property>
 		<!-- 配置数据源连接 -->
-		<property name="connectionProperties" value="config.file=classpath:#{T(org.macula.Configuration).getProfilePath()}druid-macula.properties" />
+		<property name="connectionProperties" value="${macula.connectionProperties}" />
 	</bean>	
+	
+	<bean id="macula-cart_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat,config" />
+		<!-- 配置CAT拦截 -->
+		<property name="proxyFilters">
+			<list>
+				<bean class="org.macula.plugins.cat.druid.CatFilter" />
+			</list>
+		</property>
+		<!-- 配置数据源连接 -->
+		<property name="connectionProperties" value="${cart.connectionProperties}" />
+	</bean>		
 	
 	<!-- ********************REDIS配置********************** -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
@@ -53,22 +67,36 @@
 	
 	<alias name="redisTemplate" alias="transportRedisTemplate"/>
 	
-	<dubbo:application name="dubbo-cart-api" />
-	<dubbo:protocol name="dubbo" port="20882" />
-	
-	<beans profile="dev,default">
-		<dubbo:registry address="zookeeper://172.20.70.193:2181" register="true" file="#{T(java.lang.System).getProperty('user.home')}/.dubbo/dubbo-cart-api.cache"/> 
+	<beans profile="default,dev,test">
 		<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-			<property name="hostName" value="172.20.70.21" />
+			<property name="hostName" value="127.0.0.1" />
 		</bean>
 	</beans>
 
-	<beans profile="local">
-		<dubbo:registry address="zookeeper://localhost:2181" register="true" file="#{T(java.lang.System).getProperty('user.home')}/.dubbo/dubbo-cart-api.cache"/> 
-		<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-			<property name="hostName" value="localhost" />
-		</bean>
-	</beans>	
+	<!-- ********************ZOOKEEPER配置********************** -->
+	<beans profile="dev, test">
+		<bean id="maculaCuratorFramework" class="org.macula.core.configuration.reloadable.CuratorFrameworkFactoryBean" init-method="start" destroy-method="stop">
+			<constructor-arg index="0" type="java.lang.String" value="${zookeeper.address}" />
+			<constructor-arg index="1" type="org.apache.curator.RetryPolicy"> <!-- 连接重试策略 -->
+				<bean class="org.apache.curator.retry.ExponentialBackoffRetry">
+					<constructor-arg index="0">
+						<value>1000</value>
+					</constructor-arg>
+					<constructor-arg index="1">
+						<value>3</value>
+					</constructor-arg>
+				</bean>
+			</constructor-arg>
+		</bean>	
+	</beans>
 	
+	<beans>
+		<dubbo:application name="dubbo-cart-api" />
+		<dubbo:protocol name="dubbo" port="20882" />
+	</beans>
+	
+	<beans profile="default,dev,test">
+		<dubbo:registry protocol="zookeeper" address="${zookeeper.address}" register="true" file="#{T(java.lang.System).getProperty('user.home')}/.dubbo/dubbo-cart-api.cache"/> 
+	</beans>
 </beans>
 	

@@ -39,7 +39,32 @@
 	</dependencies>
 
 	<build>
-		<finalName>macula-cart-api</finalName>
+		<finalName>macula-cart-api-${environment}[${project.version}.${buildNumber}]</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/deploy/${environment}</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 
@@ -126,144 +151,28 @@
 			<id>dev</id>
 			<properties>
 				<environment>dev</environment>
-				<jarName>macula-cart-api-${environment}[${project.version}.${buildNumber}]</jarName>
 			</properties>
-			<build>
-				<finalName>${jarName}</finalName>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>2.7</version>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/dev</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>pre-test</id>
-			<properties>
-				<environment>pre-test</environment>
-				<jarName>macula-cart-api-${environment}[${project.version}.${buildNumber}]</jarName>
-			</properties>
-			<build>
-				<finalName>${jarName}</finalName>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>2.7</version>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/pre-test</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 
 		<profile>
 			<id>test</id>
 			<properties>
 				<environment>test</environment>
-				<jarName>macula-cart-api-${environment}[${project.version}.${buildNumber}]</jarName>
 			</properties>
-			<build>
-				<finalName>${jarName}</finalName>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>2.7</version>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/test</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+		</profile>
+
+		<profile>
+			<id>staging</id>
+			<properties>
+				<environment>staging</environment>
+			</properties>
 		</profile>
 
 		<profile>
 			<id>prd</id>
 			<properties>
 				<environment>prd</environment>
-				<jarName>macula-cart-api-${environment}[${project.version}.${buildNumber}]</jarName>
 			</properties>
-			<build>
-				<finalName>${jarName}</finalName>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>2.7</version>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/classes</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy/prd</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 

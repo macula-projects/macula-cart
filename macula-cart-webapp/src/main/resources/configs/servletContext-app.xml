@@ -26,8 +26,11 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+	<import resource="classpath*:/configs/servletContext-plugins.xml"/>
 	<import resource="classpath*:/META-INF/spring/macula-*-servlet.xml" />
-	<context:component-scan base-package="org.macula.core.config, org.macula.base.config, org.macula.cart.**.config">
+	
+	<!-- 如果业务系统的Configuration注解类放在不同包，请添加在base-package中 -->
+	<context:component-scan base-package="org.macula.**.config">
 		<context:include-filter type="annotation" expression="org.springframework.context.annotation.Configuration"/>
 		<context:include-filter type="assignable" expression="org.macula.core.config.MaculaServletConfig"/>
 	</context:component-scan>

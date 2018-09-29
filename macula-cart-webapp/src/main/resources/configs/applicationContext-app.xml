@@ -43,19 +43,11 @@
 	<!-- Macula Entity Manager -->
 	<bean id="entityManagerFactory_macula" parent="abstractEntityManagerFactory">
 		<property name="persistenceUnitManager">
-			<bean class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+			<bean class="org.macula.core.jpa.PropertiesPersistenceUnitManager">
 				<property name="defaultPersistenceUnitName">
 					<value>macula</value>
 				</property>
 				<property name="defaultDataSource" ref="macula_dataSource" />
-				<property name="packagesToScan">
-					<array>
-						<value>org.macula.base.app.domain</value>
-						<value>org.macula.base.data.domain</value>
-						<value>org.macula.base.acl.domain</value>
-						<value>org.macula.plugins.rule.domain</value>
-					</array>
-				</property>
 			</bean>
 		</property>
 	</bean>
